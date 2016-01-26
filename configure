@@ -1,7 +1,7 @@
 #! /bin/sh
 # configure script for LoopTools
 # note: has nothing to do with GNU autoconf
-# last modified 29 Aug 14 th
+# last modified 11 Dec 15 th
 
 
 exec 2> ${LOGFILE:-/dev/null} 3>&1
@@ -189,7 +189,7 @@ case "`$CONF_FC --version -c 2>&1`" in
   CONF_FFLAGS="$FFLAGS ${CONF_DEBUG:--O1 -g} -ffixed-line-length-none $CONF_M $CONF_STATIC ${CONF_DEBUG:+-Wall}"
   case "$CONF_FC" in
   *gfortran*)
-	CONF_FFLAGS="$CONF_FFLAGS ${CONF_DEBUG:+-Wtabs -ffpe-trap=invalid,overflow,zero} -fno-range-check -ff2c ${CONF_STATIC_EXT:+-static-libgfortran -static-libgcc}" ;;
+	CONF_FFLAGS="$CONF_FFLAGS ${CONF_DEBUG:+-Wtabs -ffpe-trap=invalid,overflow,zero} -fno-range-check ${CONF_STATIC_EXT:+-static-libgfortran -static-libgcc}" ;;
   esac ;;
 *)
   CONF_FFLAGS="${FFLAGS-default}"
