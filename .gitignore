@@ -1,0 +1,7 @@
+/build/*
+makefile
+/manual/*.aux
+/manual/*.dvi
+/manual/*.log
+/manual/*.idx
+/manual/*.toc
