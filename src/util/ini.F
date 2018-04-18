@@ -1,7 +1,7 @@
 * ini.F
 * routines for initializing and setting some parameters
 * this file is part of LoopTools
-* last modified 3 Sep 14 th
+* last modified 14 Apr 18 th
 
 #include "externals.h"
 #include "types.h"
@@ -16,8 +16,8 @@
 	integer i
 
 	do i = 1, ncaches
-	  cacheptr(1,1,i) = 0
-	  cacheptr(2,1,i) = 0
+	  cacheptr(1,0,i) = 0
+	  cacheptr(2,0,i) = 0
 	  savedptr(1,i) = 0
 	  savedptr(2,i) = 0
 	enddo
@@ -33,8 +33,8 @@
 	integer i
 
 	do i = 1, ncaches
-	  savedptr(1,i) = cacheptr(1,1,i)
-	  savedptr(2,i) = cacheptr(2,1,i)
+	  savedptr(1,i) = cacheptr(1,0,i)
+	  savedptr(2,i) = cacheptr(2,0,i)
 	enddo
 	end
 
@@ -48,8 +48,8 @@
 	integer i
 
 	do i = 1, ncaches
-	  cacheptr(1,1,i) = savedptr(1,i)
-	  cacheptr(2,1,i) = savedptr(2,i)
+	  cacheptr(1,0,i) = savedptr(1,i)
+	  cacheptr(2,0,i) = savedptr(2,i)
 	enddo
 	end
 
@@ -252,6 +252,48 @@
 
 ************************************************************************
 
+	subroutine setdiffeps(diffeps_)
+	implicit none
+	RealType diffeps_
+
+#include "lt.h"
+
+	diffeps = diffeps_
+	end
+
+************************************************************************
+
+	RealType function getdiffeps()
+	implicit none
+
+#include "lt.h"
+
+	getdiffeps = diffeps
+	end
+
+************************************************************************
+
+	subroutine setzeroeps(zeroeps_)
+	implicit none
+	RealType zeroeps_
+
+#include "lt.h"
+
+	zeroeps = zeroeps_
+	end
+
+************************************************************************
+
+	RealType function getzeroeps()
+	implicit none
+
+#include "lt.h"
+
+	getzeroeps = zeroeps
+	end
+
+************************************************************************
+
 	subroutine setwarndigits(warndigits_)
 	implicit none
 	integer warndigits_
@@ -355,7 +397,7 @@
 
 #include "lt.h"
 
-	cmpbits = max(cmpbits_, 8 + KIND*4)
+	cmpbits = max(cmpbits_, 12 + QUAD*4)
 	end
 
 ************************************************************************
@@ -366,48 +408,6 @@
 #include "lt.h"
 
 	getcmpbits = cmpbits
-	end
-
-************************************************************************
-
-	subroutine setdiffeps(diffeps_)
-	implicit none
-	RealType diffeps_
-
-#include "lt.h"
-
-	diffeps = diffeps_
-	end
-
-************************************************************************
-
-	RealType function getdiffeps()
-	implicit none
-
-#include "lt.h"
-
-	getdiffeps = diffeps
-	end
-
-************************************************************************
-
-	subroutine setzeroeps(zeroeps_)
-	implicit none
-	RealType zeroeps_
-
-#include "lt.h"
-
-	zeroeps = zeroeps_
-	end
-
-************************************************************************
-
-	RealType function getzeroeps()
-	implicit none
-
-#include "lt.h"
-
-	getzeroeps = zeroeps
 	end
 
 ************************************************************************

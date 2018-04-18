@@ -16,10 +16,10 @@ ARGS = $(PARALLEL) \
   EXE="$(EXE)" \
   DEF="$(DEF)" \
   NOUNDERSCORE="$(NOUNDERSCORE)" \
-  XFC="$(FC$(QUADSUFFIX)) $(FFLAGS) $(FFLAGS-quad) -I." \
+  XFC="$(FC) $(FFLAGS) -I." \
   F90="$(F90)" \
   CC="$(CC)" \
-  CFLAGS="$(CFLAGS) $(CFLAGS-quad)" \
+  CFLAGS="$(CFLAGS)" \
   CXX="$(CXX)" \
   CXXFLAGS="$(CXXFLAGS)" \
   ML="$(ML)" \
@@ -31,8 +31,7 @@ ARGS = $(PARALLEL) \
   NM="$(NM)" \
   DLLTOOL="$(DLLTOOL)" \
   LDFLAGS="$(LDFLAGS)" \
-  LIBPATH="$(LIBPATH)" \
-  OBJS-quad="$(OBJS-quad)"
+  LIBPATH="$(LIBPATH)"
 
 
 default all lib frontend mma: force
