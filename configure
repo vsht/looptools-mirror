@@ -1,7 +1,7 @@
 #! /bin/bash
 # configure script for LoopTools
 # note: has nothing to do with GNU autoconf
-# last modified 9 Apr 18 th
+# last modified 19 Apr 18 th
 
 
 exec 2> ${LOGFILE:-/dev/null} 3>&1
@@ -30,8 +30,12 @@ FLDFLAGS=()
 case "$CONF_OS" in
   # Mma 5.1's mcc needs -lpthread for static linking
 Linux)	CONF_MCLIBS=" -lpthread -lrt" ;;
-#Darwin)	FLDFLAGS=("-Wl,-no_compact_unwind") ;;
-CYG*)	CONF_EXE=".exe" ;;
+Darwin)	FLDFLAGS=("-Wl,-no_compact_unwind") ;;
+  # need static linkage at least for libgfortran, to reliably
+  # get LoopTools.tm's make_sure_stdout_is_open executed before
+  # libgfortran's constructor
+CYG*)	CONF_EXE=".exe"
+	CONF_STATIC="-Wl,--image-base,0x10000000 -static-libgfortran" ;;
 esac
 
 for arg in "$@" ; do
@@ -43,8 +47,7 @@ for arg in "$@" ; do
   --static)
 	case "$CONF_OS" in
 	Darwin)	CONF_STATIC_EXT=1 ;;
-	CYG*)	CONF_STATIC_EXT=1
-		CONF_STATIC="-Wl,--image-base,0x10000000" ;;
+	CYG*)	CONF_STATIC="-Wl,--image-base,0x10000000 -static" ;;
 	*)	CONF_STATIC="-static" ;;
 	esac ;;
   --quad)

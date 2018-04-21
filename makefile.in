@@ -41,7 +41,7 @@ install: lib frontend
 	-mkdir $(PREFIX)
 	-mkdir $(LIBDIR) $(BINDIR) $(INCLUDEDIR)
 	cp -p $(BLD)/$(LIB) $(LIBDIR)
-	cp -p $(INCLUDE$(QUADSUFFIX)) $(INCLUDEDIR)
+	cp -p $(INCLUDE) $(INCLUDEDIR)
 	strip $(BLD)/$(FE)
 	cp -p $(BLD)/fcc $(BLD)/$(FE) $(BINDIR)
 	rm -f $(BINDIR)/f++

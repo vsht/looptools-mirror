@@ -756,7 +756,7 @@
 	LoopTools.tm
 		provides the LoopTools functions in Mathematica
 		this file is part of LoopTools
-		last modified 13 Apr 18 th
+		last modified 19 Apr 18 th
 */
 
 
@@ -1212,6 +1212,18 @@ static void mltexi(void) {
 
 /******************************************************************/
 
+static inline void openstdout() {
+  int fd = open("/dev/null", O_WRONLY);
+  dup2(fd, 1);
+  close(fd);
+}
+
+static void __attribute__((constructor(4711))) make_sure_stdout_is_open() {
+  if( fcntl(1, F_GETFD) == -1 ) openstdout();
+}
+
+/******************************************************************/
+
 int main(int argc, char **argv) {
   int ret;
   pthread_t stdouttid;
@@ -1220,9 +1232,7 @@ int main(int argc, char **argv) {
   if( getenv("LTFORCESTDERR") == NULL ) {
     stdoutorig = dup(1);
     if( stdoutorig == -1 && getenv("LTRESPAWN") == NULL ) {
-      cint fd = open("/dev/null", O_WRONLY);
-      dup2(fd, 1);
-      close(fd);
+      openstdout();
       putenv("LTRESPAWN=1");
       execv(argv[0], argv);
       exit(1);
