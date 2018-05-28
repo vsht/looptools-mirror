@@ -1,7 +1,7 @@
 #! /bin/bash
 # configure script for LoopTools
 # note: has nothing to do with GNU autoconf
-# last modified 11 May 18 th
+# last modified 13 May 18 th
 
 
 exec 2> ${LOGFILE:-/dev/null} 3>&1
@@ -9,11 +9,6 @@ eval ${LOGFILE:+set -x}
 
 shopt -s nullglob
 export LC_ALL=C
-
-setflags() {
-  rhs= ${2:+printf -v rhs "${IFS:0:1}%q" "${@:2}"}
-  eval "CONF_$1=\"\${rhs//\\\\,/,}\""
-}
 
 CONF_DIR="${0%/*}"
 CONF_OS="`uname -s`"
@@ -145,6 +140,11 @@ findprog fortran FC ${CONF_REAL10:+gfortran} ${CONF_QUAD:+ifort gfortran xlf} if
 
 CONF_DEF="-D"
 
+
+setflags() {
+  rhs= ${2:+printf -v rhs "${IFS:0:1}%q" "${@:2}"}
+  eval "CONF_$1=\"\${rhs//\\\\,/,}\""
+}
 
 set -- `eval $CONF_FC --version -c | sed '/^$/d;s/(.*)//;q' 2>&1`
 case "$1,$2,$3" in
