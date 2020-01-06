@@ -1,7 +1,7 @@
 * D0func.F
 * the scalar four-point function
 * this file is part of LoopTools
-* last modified 20 Dec 19 th
+* last modified 1 Jan 20 th
 
 #include "externals.h"
 #include "types.h"
@@ -1251,8 +1251,8 @@
 	  dilogs = Li2omrat2(q4, s, m3, m4) +
      &             Li2omrat2(q4, s, -1D0, -1D0)
 	else if( case .eq. 2 ) then
-	  dilogs = Li2omrat2(q4, s, x43(1), x43(3)) +
-     &             Li2omrat2(q4, s, x43(2), x43(4))
+	  dilogs = Li2omrat2(q4, s, Re(x43(1)), Re(x43(3))) +
+     &             Li2omrat2(q4, s, Re(x43(2)), Re(x43(4)))
 	else
 	  r4s = q4/s
 	  s4s = sign(.5D0, q4) - sign(.5D0, s)
