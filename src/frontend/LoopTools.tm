@@ -771,7 +771,7 @@
 	LoopTools.tm
 		provides the LoopTools functions in Mathematica
 		this file is part of LoopTools
-		last modified 28 Aug 20 th
+		last modified 3 May 21 th
 */
 
 
@@ -814,7 +814,7 @@ static inline void MLPutREALList(MLINK mlp, CREAL *s, long n) {
 #define MLPutREALList MLPutRealList
 #endif
 
-static int stdoutorig = -1, stdoutpipe[2] = {2, 2}, stdoutthr = 0;
+static int stdoutorig = 1, stdoutpipe[2] = {2, 2}, stdoutthr = 0;
 static byte *stdoutbuf = NULL;
 
 //#define DEBUG
@@ -1315,18 +1315,17 @@ int main(int argc, char **argv) {
   setbuf(deb, NULL);
 #endif
 
-  if( getenv("LTFORCESTDERR") == NULL ) {
-    stdoutorig = dup(1);
-    if( stdoutorig == -1 && getenv("LTRESPAWN") == NULL ) {
-      openstdout();
-      putenv("LTRESPAWN=1");
-      execv(argv[0], argv);
-      exit(1);
-    }
-    stdoutthr =
-      socketpair(AF_LOCAL, SOCK_STREAM, 0, stdoutpipe) != -1 &&
-      pthread_create(&stdouttid, NULL, capturestdout, stdoutpipe) == 0;
+  stdoutorig = dup(1);
+  if( stdoutorig == -1 && getenv("LTRESPAWN") == NULL ) {
+    openstdout();
+    putenv("LTRESPAWN=1");
+    execv(argv[0], argv);
+    exit(1);
   }
+
+  if( getenv("LTFORCESTDERR") == NULL ) stdoutthr =
+    socketpair(AF_LOCAL, SOCK_STREAM, 0, stdoutpipe) != -1 &&
+    pthread_create(&stdouttid, NULL, capturestdout, stdoutpipe) == 0;
 
   CaptureStdout();
   ltini();
