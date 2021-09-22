@@ -1,7 +1,7 @@
 #! /bin/bash
 # configure script for LoopTools
 # note: has nothing to do with GNU autoconf
-# last modified 23 Jun 21 th
+# last modified 21 Sep 21 th
 
 
 exec 2> ${LOGFILE:-/dev/null} 3>&1
@@ -132,9 +132,9 @@ findprog() {
 }
 
 
-findprog gcc CC clang gcc || exit 1
+findprog gcc CC gcc clang || exit 1
 
-findprog g++ CXX clang++ g++ || exit 1
+findprog g++ CXX g++ clang++ || exit 1
 
 findprog fortran FC ${CONF_REAL10:+gfortran} ${CONF_QUAD:+ifort gfortran xlf} ifort pgf90 xlf gfortran g95 f90 || exit 1
 
@@ -237,7 +237,7 @@ ${CFLAGS-${CONF_DEBUG:--O3 -g} -fomit-frame-pointer -ffast-math -fPIC -Wall} \
 $CONF_STATIC ${CONF_STATIC_GCC:+-static-libgcc}"
 
 eval setflags CXXFLAGS "\
-${CXXFLAGS-${CONF_DEBUG:--O3 -g} -fomit-frame-pointer -ffast-math -Wall} \
+${CXXFLAGS-${CONF_DEBUG:--O3 -g} -fomit-frame-pointer -ffast-math -fPIC -Wall} \
 $CONF_STATIC ${CONF_STATIC_GCC:+-static-libstdc++ -static-libgcc}"
 
 
@@ -430,14 +430,15 @@ FFLAGS =$CONF_FFLAGS \\
   \$(DEF)QUAD=\$(QUAD) \$(DEF)QUADSIZE=\$(QUADSIZE) \\
   \$(DEF)U77EXT=$CONF_U77EXT
 
-CC = $CONF_CC
-CFLAGS =$CONF_CFLAGS \\
-  -DQUAD=\$(QUAD) -DQUADSIZE=\$(QUADSIZE) \\
+CDEFS = -DQUAD=\$(QUAD) -DQUADSIZE=\$(QUADSIZE) \\
   -DNOUNDERSCORE=\$(NOUNDERSCORE) \\
   -DBIGENDIAN=$CONF_BIGENDIAN
 
+CC = $CONF_CC
+CFLAGS =$CONF_CFLAGS \$(CDEFS)
+
 CXX = $CONF_CXX
-CXXFLAGS =$CONF_CXXFLAGS$CONF_STDCPP
+CXXFLAGS =$CONF_CXXFLAGS$CONF_STDCPP \$(CDEFS)
 
 ML = $CONF_ML
 MCC = $CONF_MCC
