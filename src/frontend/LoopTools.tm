@@ -771,7 +771,7 @@
 	LoopTools.tm
 		provides the LoopTools functions in Mathematica
 		this file is part of LoopTools
-		last modified 3 May 21 th
+		last modified 12 Oct 21 th
 */
 
 
@@ -877,7 +877,6 @@ static inline void mlNextPacket(MLINK mlp) {
 static inline void mlPutStdout(MLINK mlp) {
   long len;
   extern void FORTRAN(fortranflush)();
-char buf[1024];
 
   FORTRAN(fortranflush)();
   fflush(stdout);

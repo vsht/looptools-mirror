@@ -206,7 +206,7 @@ Li2omx.o: Li2omx.F defs.h
 Li2omxC.o: Li2omx.F defs.h
 	$(CFC) -c -o Li2omxC.o Li2omx.F
 cache.o: cache.c $(LTINC)
-	$(CC) $(CFLAGS) -c -o cache.o cache.c
+	$(CC) $(CFLAGS) $(CDEFS) -c -o cache.o cache.c
 ffinit.o: ffinit.F $(LTINC) fferr.h ffwarn.h
 	$(XFC) -c -o ffinit.o ffinit.F
 ffxli2.o: ffxli2.F $(FFINC)
@@ -250,6 +250,7 @@ clooptools.h: clooptools.h.in ftypes.h
 
 $(FCC): fcc.in
 	sed -e 's|^fldflags=.*|fldflags="$(LDFLAGS) $(MCLIBS)"|' \
+	    -e 's|^cdefs=.*|cdefs="$(CDEFS)"|' \
 	    -e 's|^cc=.*|cc="$${REALCC:-$(CC) $(CFLAGS)}"|' \
 	    -e 's|^cxx=.*|cxx="$${REALCXX:-$(CXX) $(CXXFLAGS)}"|' fcc.in > $(FCC)
 	chmod 755 $(FCC)
@@ -259,8 +260,8 @@ $(FCC): fcc.in
 LoopTools$(EXE): LoopTools.tm clooptools.h fortranflush.o $(LIB) fcc
 	test -d =. || ln -s . =.
 	NM="$(NM)" DLLTOOL="$(DLLTOOL)" \
-	CC="./fcc" REALCC="$(CC) $(CFLAGS)" \
-	CXX="./f++" REALCXX="$(CXX) $(CXXFLAGS)" \
+	CC="./fcc" REALCC="$(CC) $(CFLAGS) $(CDEFS) $(MCDEFS)" \
+	CXX="./f++" REALCXX="$(CXX) $(CXXFLAGS) $(CDEFS) $(MCDEFS)" \
 	PATH="$$PATH:." \
 	  "$(MCC)" LoopTools.tm -o LoopTools$(EXE) $(MCFLAGS) \
 	    fortranflush.o $(LIB)
@@ -269,8 +270,8 @@ LoopTools$(EXE): LoopTools.tm clooptools.h fortranflush.o $(LIB) fcc
 LoopTools-quad$(EXE): LoopTools.tm clooptools.h fortranflush.o $(LIB) fcc
 	sed '/:Begin:/,/:End:/ s/Real/Real128/g' LoopTools.tm > LoopTools-quad.tm
 	NM="$(NM)" DLLTOOL="$(DLLTOOL)" \
-	CC="./fcc" REALCC="$(CC) $(CFLAGS)" \
-	CXX="./f++" REALCXX="$(CXX) $(CXXFLAGS)" \
+	CC="./fcc" REALCC="$(CC) $(CFLAGS) $(CDEFS) $(MCDEFS)" \
+	CXX="./f++" REALCXX="$(CXX) $(CXXFLAGS) $(CDEFS) $(MCDEFS)" \
 	PATH="$$PATH:." \
 	  "$(MCC)" LoopTools-quad.tm -o LoopTools-quad$(EXE) $(MCFLAGS) \
 	    fortranflush.o $(LIB) -lpthread

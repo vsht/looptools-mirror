@@ -99,6 +99,7 @@ typedef double REAL;
 
 typedef int INTEGER;
 typedef const INTEGER CINTEGER;
+typedef long long int INTEGER8;
 typedef const REAL CREAL;
 typedef struct { REAL re, im; } COMPLEX;
 typedef const COMPLEX CCOMPLEX;
