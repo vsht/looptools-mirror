@@ -270,8 +270,8 @@ LoopTools$(EXE): LoopTools.tm clooptools.h fortranflush.o $(LIB) fcc
 LoopTools-quad$(EXE): LoopTools.tm clooptools.h fortranflush.o $(LIB) fcc
 	sed '/:Begin:/,/:End:/ s/Real/Real128/g' LoopTools.tm > LoopTools-quad.tm
 	NM="$(NM)" DLLTOOL="$(DLLTOOL)" \
-	CC="./fcc" REALCC="$(CC) $(CFLAGS) $(CDEFS) $(MCDEFS)" \
-	CXX="./f++" REALCXX="$(CXX) $(CXXFLAGS) $(CDEFS) $(MCDEFS)" \
+	CC="./fcc-quad" REALCC="$(CC) $(CFLAGS) $(CDEFS) $(MCDEFS)" \
+	CXX="./f++-quad" REALCXX="$(CXX) $(CXXFLAGS) $(CDEFS) $(MCDEFS)" \
 	PATH="$$PATH:." \
 	  "$(MCC)" LoopTools-quad.tm -o LoopTools-quad$(EXE) $(MCFLAGS) \
 	    fortranflush.o $(LIB) -lpthread
