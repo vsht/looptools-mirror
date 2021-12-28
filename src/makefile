@@ -257,7 +257,7 @@ $(FCC): fcc.in
 	rm -f $(FXX)
 	ln -s $(FCC) $(FXX)
 
-LoopTools$(EXE): LoopTools.tm clooptools.h fortranflush.o $(LIB) fcc
+LoopTools$(EXE): LoopTools.tm clooptools.h fortranflush.o $(LIB) $(FCC)
 	test -d =. || ln -s . =.
 	NM="$(NM)" DLLTOOL="$(DLLTOOL)" \
 	CC="./fcc" REALCC="$(CC) $(CFLAGS) $(CDEFS) $(MCDEFS)" \
@@ -267,7 +267,7 @@ LoopTools$(EXE): LoopTools.tm clooptools.h fortranflush.o $(LIB) fcc
 	    fortranflush.o $(LIB)
 	rm -f LoopTools.tm.c
 
-LoopTools-quad$(EXE): LoopTools.tm clooptools.h fortranflush.o $(LIB) fcc
+LoopTools-quad$(EXE): LoopTools.tm clooptools.h fortranflush.o $(LIB) $(FCC)
 	sed '/:Begin:/,/:End:/ s/Real/Real128/g' LoopTools.tm > LoopTools-quad.tm
 	NM="$(NM)" DLLTOOL="$(DLLTOOL)" \
 	CC="./fcc-quad" REALCC="$(CC) $(CFLAGS) $(CDEFS) $(MCDEFS)" \
