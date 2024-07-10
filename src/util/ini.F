@@ -1,7 +1,7 @@
 * ini.F
 * routines for initializing and setting some parameters
 * this file is part of LoopTools
-* last modified 14 Apr 18 th
+* last modified 1 Jul 24 th
 
 #include "externals.h"
 #include "types.h"
@@ -194,7 +194,7 @@
 
 #include "lt.h"
 
-	getlambda = lambda
+	getlambda = lambda - epsi
 	end
 
 ************************************************************************
